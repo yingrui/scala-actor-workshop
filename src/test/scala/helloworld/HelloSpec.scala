@@ -23,4 +23,14 @@ with ImplicitSender with WordSpecLike with BeforeAndAfterAll {
     }
   }
 
+  "Message dispatcher" must {
+    "pass message to next" in {
+      val dispatcher = system.actorOf(Props(classOf[MessageDispatcher], testActor))
+      within(100 millis) {
+        dispatcher ! "hello"
+        expectMsg("hello")
+      }
+    }
+  }
+
 }
