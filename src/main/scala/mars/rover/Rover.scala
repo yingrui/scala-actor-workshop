@@ -16,5 +16,6 @@ class Rover extends Actor {
     case "Location" => sender ! Coords(x, y, heads(head))
     case "L" => if (head - 1 < 0) head = 3 else head -= 1
     case "R" => if (head + 1 >= heads.length) head = 0 else head += 1
+    case "M" => moves(head)()
   }
 }

@@ -13,12 +13,12 @@ with ImplicitSender with WordSpecLike with Matchers with BeforeAndAfterAll {
   override def afterAll {
     _system.shutdown()
   }
-  
+
   "Rover" should {
 
     "return coordinates when deployed on terrain" in {
       val rover = system.actorOf(Props[Rover])
-      within(500 millis){
+      within(500 millis) {
         rover ! Coords(1, 2, "W")
         rover ! "Location"
         expectMsg(Coords(1, 2, "W"))
@@ -77,6 +77,39 @@ with ImplicitSender with WordSpecLike with Matchers with BeforeAndAfterAll {
       rover ! "M"
       rover ! "Location"
       expectMsg(Coords(1, 2, "W"))
+    }
+
+    "move to coordinate (1 3 N)" in {
+      val rover = system.actorOf(Props[Rover])
+      rover ! Coords(1, 2, "N")
+      rover ! "L"
+      rover ! "M"
+      rover ! "L"
+      rover ! "M"
+      rover ! "L"
+      rover ! "M"
+      rover ! "L"
+      rover ! "M"
+      rover ! "M"
+      rover ! "Location"
+      expectMsg(Coords(1, 3, "N"))
+    }
+
+    "move to coordinate (5 1 E)" in {
+      val rover = system.actorOf(Props[Rover])
+      rover ! Coords(3, 3, "E")
+      rover ! "M"
+      rover ! "M"
+      rover ! "R"
+      rover ! "M"
+      rover ! "M"
+      rover ! "R"
+      rover ! "M"
+      rover ! "R"
+      rover ! "R"
+      rover ! "M"
+      rover ! "Location"
+      expectMsg(Coords(5, 1, "E"))
     }
   }
 }
