@@ -31,6 +31,15 @@ with ImplicitSender with WordSpecLike with Matchers with BeforeAndAfterAll {
       rover ! "L"
       rover ! "Location"
       expectMsg(Coords(1, 2, "W"))
+      rover ! "L"
+      rover ! "Location"
+      expectMsg(Coords(1, 2, "S"))
+      rover ! "L"
+      rover ! "Location"
+      expectMsg(Coords(1, 2, "E"))
+      rover ! "L"
+      rover ! "Location"
+      expectMsg(Coords(1, 2, "N"))
     }
   }
 }
