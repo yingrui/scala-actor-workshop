@@ -41,5 +41,22 @@ with ImplicitSender with WordSpecLike with Matchers with BeforeAndAfterAll {
       rover ! "Location"
       expectMsg(Coords(1, 2, "N"))
     }
+
+    "right rotate" in {
+      val rover = system.actorOf(Props[Rover])
+      rover ! Coords(1, 2, "N")
+      rover ! "R"
+      rover ! "Location"
+      expectMsg(Coords(1, 2, "E"))
+      rover ! "R"
+      rover ! "Location"
+      expectMsg(Coords(1, 2, "S"))
+      rover ! "R"
+      rover ! "Location"
+      expectMsg(Coords(1, 2, "W"))
+      rover ! "R"
+      rover ! "Location"
+      expectMsg(Coords(1, 2, "N"))
+    }
   }
 }
