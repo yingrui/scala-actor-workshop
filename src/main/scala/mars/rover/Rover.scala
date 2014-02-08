@@ -12,6 +12,7 @@ class Rover extends Actor {
   var head = heads.indexOf("N")
 
   def receive = {
-    case _ =>
+    case Coords(i, j, h) => x = i; y = j; head = heads.indexOf(h)
+    case "Location" => sender ! Coords(x, y, heads(head))
   }
 }
