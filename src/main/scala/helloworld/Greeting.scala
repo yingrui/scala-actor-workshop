@@ -13,3 +13,10 @@ class MessageDispatcher(next: ActorRef) extends Actor {
     case message => next ! message
   }
 }
+
+class MessageFilter(next: ActorRef) extends Actor {
+  def receive = {
+    case message: String => next ! message
+    case _ =>
+  }
+}

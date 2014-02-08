@@ -33,4 +33,21 @@ with ImplicitSender with WordSpecLike with BeforeAndAfterAll {
     }
   }
 
+  "Message filter" must {
+    "filter message then pass to next" in {
+      val filter = system.actorOf(Props(classOf[MessageFilter], testActor))
+      filter ! "hello"
+      filter ! 1
+      filter ! "world"
+      filter ! 2
+      filter ! "!"
+      var message = List[Any]()
+      receiveWhile(500 millis) {
+        case msg => message = msg +: message
+      }
+
+      message.reverse should be(List("hello", "world", "!"))
+    }
+  }
+
 }
