@@ -31,6 +31,21 @@ with ImplicitSender with WordSpecLike with BeforeAndAfterAll {
         expectMsg("hello")
       }
     }
+
+    "only verify interested message" in {
+      val dispatcher = system.actorOf(Props(classOf[MessageDispatcher], testActor))
+      within(500 millis) {
+        ignoreMsg {
+          case msg => msg == "hello"
+        }
+        dispatcher ! "hello"
+        dispatcher ! "world"
+        expectMsg("world")
+
+        expectNoMsg
+        ignoreNoMsg
+      }
+    }
   }
 
   "Message filter" must {
